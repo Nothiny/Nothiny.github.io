@@ -69,7 +69,7 @@ tags:
 
 为了具体说明计算图优化，我们在Tensorflow XLA中每个pass之前和之后转储HLO图。我们选择Alexnet模型作为XLA编译器的输入，Volta GPU作为目标硬件。优化如图6所示。为了简单起见，我们移除了一些节点的数据布局信息。代数化简包括将连续的转置和reshape节点减少为单个reshape节点，以及将reshape节点替换为bitcast节点。CSE重用broadcast节点。cuDNN转换将卷积节点转换为cuDNN的函数调用(convForward)，以使图优化能够利用cuDNN库。常量折叠将相邻的卷积(convForward)和add节点转换为带偏置的卷积(convBiasActivationForward)。算子融合融合了几个bitcast节点和一个add节点。注意，深度学习编译器(例如XLA)中前端优化的实现包含几个阶段。因此，优化会执行多次，这可能每次都改变计算图，从而为进一步优化引入更多机会。
 
-![image-20251024111914502](/img/in-post/image-20251024111914502.png)
+![image-20251024111914502](/img/in-posts/image-20251024111914502.png)
 
 ​                                                                  图6：从Tensorflow XLA的Alexnet转储HLO图中提取的计算图优化示例。
 
@@ -79,7 +79,7 @@ tags:
 
 # 4.5 后端优化
 
-![image-20251024112143676](/img/in-post/image-20251024112143676.png)
+![image-20251024112143676](/img/in-posts/image-20251024112143676.png)
 
 ​                                图7：深度学习编译器中应用的后端优化概述
 
@@ -121,7 +121,7 @@ tags:
 
 **代价模型(Cost model)** - 自动调优中应用的不同代价模型的比较如表4所示。
 
-![image-20251024112312233](/img/in-post/image-20251024112312233.png)
+![image-20251024112312233](/img/in-posts/image-20251024112312233.png)
 
 ​                                               表4：自动调整中应用的不同成本模型的比较。
 
