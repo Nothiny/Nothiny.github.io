@@ -99,7 +99,7 @@ friends:
 # Giscus settings
 giscus:
   enable: true
-  repo: nothin/nothin.github.io
+  repo: Nothiny/Nothiny.github.io
   repo_id: "R_kgDOPknUAQ"
   category: Announcements
   category_id: "DIC_kwDOPknUAc4CxoKn"
