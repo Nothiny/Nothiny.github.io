@@ -1,12 +1,12 @@
 @media (min-width: 1200px) {
   .post-container,
   .sidebar-container {
-    padding-right: 5%;
+    padding-right: 3%;
   }
 }
 @media (min-width: 768px) {
   .post-container {
-    padding-right: 5%;
+    padding-right: 3%;
   }
 }
 .sidebar-container {
@@ -727,6 +727,7 @@ img.shadow {
 }
 select {
   -webkit-appearance: none;
+  appearance: none;
   margin-top: 15px;
   color: #337ab7;
   border-color: #337ab7;
