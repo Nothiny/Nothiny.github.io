@@ -1,11 +1,6 @@
 ---
-layout:     post
 title:      "记一个有趣的编译优化选项 `-enable-dfa-jump-thread`"
-subtitle:   " \"Hello World, Hello Blog\""
 date:       2025-09-22 12:00:00
-author:     "nothin"
-header-img: "img/bg-walle.jpg"
-catalog: true
 tags:
     - 编译优化
 ---

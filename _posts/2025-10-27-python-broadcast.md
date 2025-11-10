@@ -1,11 +1,6 @@
 ---
-layout:     post
 title:      "Python 中的广播机制 (Broadcasting)"
-subtitle:   "广播 (Broadcasting) 是 NumPy 和 PyTorch 等科学计算库中的一种机制，允许不同形状的数组进行算术运算，而无需显式复制数据。"
 date:       2025-10-27 12:00:00
-author:     "nothin"
-header-img: "img/bg-walle.jpg"
-catalog: true
 tags:
     - hello world
 ---

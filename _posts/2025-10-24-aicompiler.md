@@ -1,11 +1,6 @@
 ---
-layout:     post
 title:      "翻译《The Deep Learning Compiler: A Comprehensive Survey》"
-subtitle:   " \"Hello World, Hello Blog\""
 date:       2025-10-24 12:00:00
-author:     "nothin"
-header-img: "img/wallhaven-lm6jm2.jpg"
-catalog: true
 tags:
     - ai-compiler
 ---
