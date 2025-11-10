@@ -46,6 +46,36 @@ layout: default
                 </ul>
                 <hr style="visibility: hidden;">
 
+                {% if site.giscus.enable %}
+                <div class="comment-area">
+                    <h4 class="comment-title">评论</h4>
+                    <section id="giscus-thread"></section>
+                </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    if (document.getElementById('giscus-script')) {
+                      return;
+                    }
+                    var script = document.createElement('script');
+                    script.id = 'giscus-script';
+                    script.src = 'https://giscus.app/client.js';
+                    script.async = true;
+                    script.crossOrigin = 'anonymous';
+                    script.setAttribute('data-repo', '{{ site.giscus.repo }}');
+                    script.setAttribute('data-repo-id', '{{ site.giscus.repo_id }}');
+                    script.setAttribute('data-category', '{{ site.giscus.category }}');
+                    script.setAttribute('data-category-id', '{{ site.giscus.category_id }}');
+                    script.setAttribute('data-mapping', '{{ site.giscus.mapping | default: "pathname" }}');
+                    script.setAttribute('data-reactions-enabled', '{{ site.giscus.reactions_enabled | default: "1" }}');
+                    script.setAttribute('data-emit-metadata', '{{ site.giscus.emit_metadata | default: "0" }}');
+                    script.setAttribute('data-input-position', '{{ site.giscus.input_position | default: "bottom" }}');
+                    script.setAttribute('data-lang', '{{ site.giscus.lang | default: "en" }}');
+                    script.setAttribute('data-theme', '{{ site.giscus.theme | default: "light" }}');
+                    document.getElementById('giscus-thread').appendChild(script);
+                  });
+                </script>
+                {% endif %}
+
 
                 {% if site.netease_comment %}
                 <!-- 网易云跟帖 评论框 start -->

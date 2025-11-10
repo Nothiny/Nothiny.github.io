@@ -93,3 +93,19 @@ friends:
   [
     # { title: "乱序（Midare）", href: "http://mida.re/" }
   ]
+
+
+
+# Giscus settings
+giscus:
+  enable: true
+  repo: nothin/nothin.github.io
+  repo_id: "R_kgDOPknUAQ"
+  category: Announcements
+  category_id: "DIC_kwDOPknUAc4CxoKn"
+  mapping: pathname
+  reactions_enabled: 1
+  emit_metadata: 0
+  input_position: bottom
+  lang: zh-CN
+  theme: preferred_color_scheme
