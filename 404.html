@@ -14,3 +14,131 @@ permalink: /404.html
 <script>
 	document.body.classList.add('page-fullscreen');
 </script>
+
+<main class="notfound-container">
+  <div class="container">
+    <div class="notfound-card">
+      <div class="notfound-code">404</div>
+      <h1>迷路了嘛？</h1>
+      <p>你来到了没有知识的荒原。可能是链接写错了，也可能是文章搬家了。</p>
+      <ul class="notfound-actions">
+        <li><a class="notfound-btn" href="{{ '/' | relative_url }}">返回首页</a></li>
+        <li><a class="notfound-link" href="{{ '/archive/' | relative_url }}">去归档页看看</a></li>
+      </ul>
+      <p class="notfound-tip">如果这个页面应该存在，欢迎 <a href="mailto:yzida1107@gmail.com">告诉我</a> 或者在 GitHub issue 里留言。</p>
+    </div>
+  </div>
+</main>
+
+<style>
+.notfound-container {
+  position: relative;
+  z-index: 2;
+  margin-top: -40px;
+  padding: 80px 0 120px;
+}
+.notfound-card {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 48px 56px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 60px rgba(15, 30, 55, 0.22);
+  text-align: center;
+}
+.notfound-code {
+  font-size: 88px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: #203a70;
+  text-shadow: 0 10px 20px rgba(20, 30, 65, 0.25);
+}
+.notfound-card h1 {
+  margin: 16px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f1e37;
+}
+.notfound-card p {
+  margin-bottom: 18px;
+  color: #364156;
+  line-height: 1.7;
+}
+.notfound-actions {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 16px;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.notfound-actions li {
+  margin: 0;
+}
+.notfound-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3661ff, #4eb7ff);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(54, 97, 255, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.notfound-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(54, 97, 255, 0.45);
+}
+.notfound-link {
+  display: inline-block;
+  padding: 12px 24px;
+  color: #3661ff;
+  border-radius: 999px;
+  text-decoration: none;
+  border: 1px solid rgba(54, 97, 255, 0.35);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.notfound-link:hover {
+  background: rgba(54, 97, 255, 0.08);
+}
+.notfound-tip {
+  font-size: 14px;
+  color: #5d6a85;
+}
+.notfound-tip a {
+  color: #3661ff;
+  text-decoration: none;
+}
+.notfound-tip a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 640px) {
+  .notfound-container {
+    margin-top: -20px;
+    padding: 60px 0 100px;
+  }
+  .notfound-card {
+    padding: 40px 32px;
+  }
+  .notfound-code {
+    font-size: 64px;
+  }
+  .notfound-card h1 {
+    font-size: 24px;
+  }
+  .notfound-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .notfound-actions li {
+    width: 100%;
+  }
+  .notfound-btn,
+  .notfound-link {
+    width: 100%;
+  }
+}
+</style>
