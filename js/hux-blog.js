@@ -41,6 +41,68 @@ $(document).ready(function() {
     $('iframe[src*="vimeo.com"]').addClass('embed-responsive-item');
 });
 
+// copy code block
+$(document).ready(function() {
+    function fallbackCopyText(text, onSuccess, onError) {
+        var $temp = $('<textarea>').css({
+            position: 'fixed',
+            top: '-9999px',
+            left: '-9999px',
+            opacity: 0
+        }).val(text).appendTo('body');
+        var tempDom = $temp.get(0);
+        tempDom.focus();
+        tempDom.select();
+        try {
+            var successful = document.execCommand('copy');
+            successful ? onSuccess() : onError();
+        } catch (err) {
+            onError();
+        }
+        $temp.remove();
+    }
+
+    $('.highlighter-rouge .highlight, pre.highlight').each(function() {
+        var $block = $(this);
+        if ($block.find('.copy-code-btn').length) {
+            return;
+        }
+
+        var $button = $('<button type="button" class="copy-code-btn" aria-label="复制代码" title="复制代码">复制</button>');
+
+        $button.on('click', function() {
+            var codeText = $block.find('.rouge-code pre').text() ||
+                $block.find('pre code').text() ||
+                $block.find('pre').text() ||
+                $block.text();
+
+            var resetState = function() {
+                $button.removeClass('is-copied is-error').text('复制');
+            };
+
+            var showSuccess = function() {
+                $button.addClass('is-copied').text('已复制');
+                setTimeout(resetState, 2000);
+            };
+
+            var showError = function() {
+                $button.addClass('is-error').text('复制失败');
+                setTimeout(resetState, 2000);
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(codeText).then(showSuccess).catch(function() {
+                    fallbackCopyText(codeText, showSuccess, showError);
+                });
+            } else {
+                fallbackCopyText(codeText, showSuccess, showError);
+            }
+        });
+
+        $block.append($button);
+    });
+});
+
 // Navigation Scripts to Show Header on Scroll-Up
 jQuery(document).ready(function($) {
     var MQL = 1170;

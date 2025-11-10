@@ -311,6 +311,46 @@ pre.highlight {
   background: #282c34;
   color: #abb2bf;
 }
+.highlight {
+  position: relative;
+}
+.highlight .copy-code-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #f5f5f5;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease,
+    color 0.2s ease;
+  z-index: 1;
+}
+.highlight:hover .copy-code-btn,
+.highlight .copy-code-btn:focus {
+  opacity: 1;
+  outline: none;
+}
+.highlight .copy-code-btn.is-copied {
+  background: #0085a1;
+  border-color: #0085a1;
+  color: #fff;
+}
+.highlight .copy-code-btn.is-error {
+  background: #f26d6d;
+  border-color: #f26d6d;
+  color: #fff;
+}
+@media (hover: none) {
+  .highlight .copy-code-btn {
+    opacity: 1;
+  }
+}
 .highlight pre {
   background: #282c34;
 }
