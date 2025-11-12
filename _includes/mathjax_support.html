@@ -1,19 +1,23 @@
 <script>
-  MathJax = {
+  window.MathJax = {
     tex: {
       inlineMath: [['$','$'], ['\\(','\\)']],
       displayMath: [['$$','$$'], ['\\[','\\]']],
       processEscapes: true,
-      processEnvironments: true,
-      autoload: {
-        color: [],
-        colorv2: ['color']
-      },
-      packages: {'[+]': ['ams', 'newcommand', 'configMacros']}
+      processEnvironments: true
     },
     options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
       ignoreHtmlClass: '.*|',
       processHtmlClass: 'arithmatex'
+    },
+    startup: {
+      ready: () => {
+        MathJax.startup.defaultReady();
+        MathJax.startup.promise.then(() => {
+          console.log('MathJax is loaded and ready');
+        });
+      }
     }
   };
 </script>
