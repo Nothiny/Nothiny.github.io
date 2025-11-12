@@ -175,8 +175,10 @@
 
         // appending
         a.each(function () {
+            var id = $(this).prop('id');
+            if (!id) return; // Skip headings without ID
             n = $(this).prop('tagName').toLowerCase();
-            i = "#" + $(this).prop('id');
+            i = "#" + id;
             t = $(this).text();
             c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
             l = $('<li class="' + n + '_nav"></li>').append(c);

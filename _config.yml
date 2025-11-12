@@ -85,6 +85,7 @@ defaults:
       layout: post
       author: nothin
       catalog: true
+      mathjax: true
 
 # Featured Tags
 featured-tags: true # whether or not using Feature-Tags

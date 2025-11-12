@@ -1,7 +1,7 @@
 ---
 title:      "翻译《The Deep Learning Compiler: A Comprehensive Survey》"
 date:       2025-10-24 12:00:00
-header-img: img/in-posts/v2-4d.jpg
+header-img: img/bg-walle.jpg
 tags:
     - ai-compiler
 
