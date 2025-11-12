@@ -1,8 +1,10 @@
 ---
 title:      "记一个有趣的编译优化选项 `-enable-dfa-jump-thread`"
 date:       2025-09-22 12:00:00
+header-img: img/bg-walle.jpg
 tags:
     - 编译优化
+
 ---
 
 

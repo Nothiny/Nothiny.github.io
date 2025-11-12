@@ -1,8 +1,10 @@
 ---
 title:      "Python 中的广播机制 (Broadcasting)"
 date:       2025-10-27 12:00:00
+header-img: img/chips.jpg
 tags:
     - hello world
+
 ---
 
 # Python 中的广播机制 (Broadcasting)
