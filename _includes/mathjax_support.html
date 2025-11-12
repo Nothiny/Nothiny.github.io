@@ -7,15 +7,19 @@
       processEnvironments: true
     },
     options: {
-      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-      ignoreHtmlClass: '.*|',
-      processHtmlClass: 'arithmatex'
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
     },
     startup: {
       ready: () => {
         MathJax.startup.defaultReady();
         MathJax.startup.promise.then(() => {
-          console.log('MathJax is ready');
+          console.log('MathJax is loaded and ready');
+          // Manually trigger typeset after MathJax is ready
+          if (MathJax.typesetPromise) {
+            MathJax.typesetPromise().catch(function(err) {
+              console.error('MathJax typeset error:', err);
+            });
+          }
         });
       }
     }
