@@ -3,7 +3,7 @@ title:      "GQA: Training Generalized Multi-Query Transformer Models from Multi
 date:       2025-11-14 12:00:00
 header-img: img/posts-img/wallhaven-1.jpg
 tags:
-    - hello world
+    - llm 推理
 ---
 
 > GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints
