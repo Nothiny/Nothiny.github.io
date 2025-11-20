@@ -90,8 +90,8 @@ Online softmax 允许我们在看到数据流的过程中**增量式地**计算 
 为了数值稳定，softmax 通常这样计算：  
 $$
 \text{softmax}(\mathbf{x})_i = \frac{e^{x_i - m}}{\sum_j e^{x_j - m}}
-$$
-其中 $m = \max_j x_j $ 是最大值。
+$$  
+其中 $m = \max_j x_j$  是最大值。
 
 ##### 关键统计量
 
@@ -109,24 +109,24 @@ $$
 **步骤 1**：计算注意力分数  
 $$
 \mathbf{S}^{(1)} = \mathbf{Q}(\mathbf{K}^{(1)})^T \in \mathbb{R}^{B_r \times B_c}
-$$
+$$  
 **步骤 2**：计算行最大值  
 $$
 m^{(1)} = \text{rowmax}(\mathbf{S}^{(1)}) \in \mathbb{R}^{B_r}
-$$
+$$  
 **步骤 3**：计算归一化因子（基于 $m^{(1)}$ ）   
 
 
 $$
 \ell^{(1)} = \text{rowsum}(e^{\mathbf{S}^{(1)}-m^{(1)}}) \in \mathbb{R}^{B_r}
-$$
+$$  
 **步骤 4**：计算部分输出（未归一化）  
 
 
 $$
 \tilde{\mathbf{O}}^{(1)} = e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} \in \mathbb{R}^{B_r \times d}
-$$
-注意：$\tilde{\mathbf{O}}^{(1)} $ 此时还不是正确的输出，因为归一化因子是基于部分数据计算的。
+$$  
+注意：$\tilde{\mathbf{O}}^{(1)}$  此时还不是正确的输出，因为归一化因子是基于部分数据计算的。
 
 ### 第二个块的处理
 
@@ -135,7 +135,7 @@ $$
 
 $$
 m^{(2)} = \max(m^{(1)}, \text{rowmax}(\mathbf{S}^{(2)})) = m
-$$
+$$  
 这是真实的全局最大值。
 
 **步骤 6**：更新归一化因子  
@@ -145,7 +145,7 @@ $$
 
 $$
 \begin{align} \ell^{(2)} &= e^{m^{(1)}-m^{(2)}} \ell^{(1)} + \text{rowsum}(e^{\mathbf{S}^{(2)}-m^{(2)}}) \\ &= \text{rowsum}(e^{\mathbf{S}^{(1)}-m}) + \text{rowsum}(e^{\mathbf{S}^{(2)}-m}) \\ &= \ell \end{align}
-$$
+$$  
 **推导说明**：
 
 - $\ell^{(1)} = \sum_j e^{S^{(1)}_{ij} - m^{(1)}} $
@@ -158,7 +158,7 @@ $$
 
 $$
 \begin{align} \tilde{\mathbf{O}}^{(2)} &= \text{diag}(e^{m^{(1)}-m^{(2)}})\tilde{\mathbf{O}}^{(1)} + e^{\mathbf{S}^{(2)}-m^{(2)}}\mathbf{V}^{(2)} \\ &= e^{\mathbf{S}^{(1)}-m}\mathbf{V}^{(1)} + e^{\mathbf{S}^{(2)}-m}\mathbf{V}^{(2)} \end{align}
-$$
+$$  
 
 
 **推导说明**：
@@ -174,7 +174,7 @@ $$
 
 $$
 \mathbf{O}^{(2)} = \text{diag}(\ell^{(2)})^{-1}\tilde{\mathbf{O}}^{(2)} = \mathbf{O}
-$$
+$$  
 这就是最终正确的注意力输出！
 
 ## Attention 前向和反向传播公式
@@ -191,15 +191,15 @@ $$
 
 $$
 \mathbf{S} = \mathbf{Q}\mathbf{K}^T \in \mathbb{R}^{N \times N}
-$$
+$$  
 
 $$
 \mathbf{P} = \text{softmax}(\mathbf{S}) \in \mathbb{R}^{N \times N}
-$$
+$$  
 
 $$
 \mathbf{O} = \mathbf{P}\mathbf{V} \in \mathbb{R}^{N \times d}
-$$
+$$  
 
 ### 反向传播 (Backward Pass)
 
@@ -214,28 +214,28 @@ $$
 **1. 对 V 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{V}} = \mathbf{P}^T \frac{\partial L}{\partial \mathbf{O}} \in \mathbb{R}^{N \times d}
-$$
+$$  
 **2. 对 P 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{P}} = \frac{\partial L}{\partial \mathbf{O}} \mathbf{V}^T \in \mathbb{R}^{N \times N}
-$$
+$$  
 **3. 对 S 的梯度（softmax 反向传播）：**  
 $$
 \frac{\partial L}{\partial \mathbf{S}} = \mathbf{P} \odot \left(\frac{\partial L}{\partial \mathbf{P}} - \text{diag}\left(\frac{\partial L}{\partial \mathbf{P}} \mathbf{P}^T\right)\right) \in \mathbb{R}^{N \times N}
-$$
+$$  
 
 或者简化为：  
 $$
 \frac{\partial L}{\partial S_{ij}} = P_{ij}\left(\frac{\partial L}{\partial P_{ij}} - \sum_k \frac{\partial L}{\partial P_{ik}} P_{ik}\right)
-$$
+$$  
 **4. 对 Q 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{Q}} = \frac{\partial L}{\partial \mathbf{S}} \mathbf{K} \in \mathbb{R}^{N \times d}
-$$
+$$  
 **5. 对 K 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{K}} = \left(\frac{\partial L}{\partial \mathbf{S}}\right)^T \mathbf{Q} \in \mathbb{R}^{N \times d}
-$$
+$$  
 
 反向传播由于不保存P，所以需要重新计算：
 
@@ -244,7 +244,7 @@ $$
 在标准 attention 中，反向传播需要用到注意力权重 $\mathbf{P}$ ：  
 $$
 \frac{\partial L}{\partial \mathbf{S}} = \mathbf{P} \odot \left(\frac{\partial L}{\partial \mathbf{P}} - \text{diag}\left(\frac{\partial L}{\partial \mathbf{P}} \mathbf{P}^T\right)\right)
-$$
+$$  
 
 
 但 FlashAttention **不保存 $\mathbf{P}$** （太大了），所以需要在反向传播时**重新计算** $\mathbf{P}$ 。
@@ -254,7 +254,7 @@ $$
 要重新计算 $\mathbf{P}$ ，需要：  
 $$
 \mathbf{P} = \text{softmax}(\mathbf{S}) = \frac{e^{\mathbf{S} - m}}{\ell}
-$$
+$$  
 其中：
 
 - $m = \text{rowmax}(\mathbf{S})$ ：可以重新计算
@@ -267,7 +267,7 @@ $$
 这样在反向传播时：  
 $$
 \mathbf{P}_{ij} = \frac{e^{S_{ij} - m}}{\ell} = \frac{e^{S_{ij} - m}}{e^{L - m}} = e^{S_{ij} - L}
-$$
+$$  
 **优势**：
 
 - 避免指数运算的数值溢出
@@ -281,7 +281,7 @@ $$
 设置块大小：
 $$
 B_c = \left\lceil \frac{M}{4d} \right\rceil, \quad B_r = \min\left(\left\lceil \frac{M}{4d} \right\rceil, d\right)
-$$
+$$  
 其中：
 
 - $M $ 是 SRAM 的大小（以元素数量计）
@@ -324,42 +324,42 @@ $B_r = \min\left(\left\lceil \frac{M}{4d} \right\rceil, d\right)$
 **步骤 1**：原始的 logsumexp 定义  
 $$
 L_i = \log\left(\sum_j e^{S_{ij}}\right)
-$$
+$$  
 **步骤 2**：定义行最大值  
 $$
 m_i = \max_j S_{ij}
-$$
+$$  
 **步骤 3**：在求和中巧妙地乘以和除以 $e^{m_i}$  
 $$
 L_i = \log\left(\sum_j e^{S_{ij}} \cdot \frac{e^{m_i}}{e^{m_i}}\right)
-$$
+$$  
 **步骤 4**：提取 $e^{m_i}$  到求和外面  
 $$
 L_i = \log\left(e^{m_i} \cdot \sum_j \frac{e^{S_{ij}}}{e^{m_i}}\right)
-$$
+$$  
 **步骤 5**：使用对数的乘法法则 $\log(ab) = \log(a) + \log(b)$  
 $$
 L_i = \log(e^{m_i}) + \log\left(\sum_j \frac{e^{S_{ij}}}{e^{m_i}}\right)
-$$
+$$  
 **步骤 6**：简化 $\log(e^{m_i}) = m_i$  
 $$
 L_i = m_i + \log\left(\sum_j \frac{e^{S_{ij}}}{e^{m_i}}\right)
-$$
+$$  
 **步骤 7**：使用指数的除法法则 $\frac{e^a}{e^b} = e^{a-b}$  
 $$
 L_i = m_i + \log\left(\sum_j e^{S_{ij} - m_i}\right)
-$$
+$$  
 **步骤 8**：定义 $\ell_i = \sum_j e^{S_{ij} - m_i}$ （归一化因子）
 
 最终得到：  
 $$
 \boxed{L_i = m_i + \log(\ell_i) = m_i + \log\left(\sum_j e^{S_{ij} - m_i}\right)}
-$$
+$$  
 **关系总结**  
 
 $$
 \begin{align} m_i &= \max_j S_{ij} \\ \ell_i &= \sum_j e^{S_{ij} - m_i} \\ L_i &= m_i + \log(\ell_i) \end{align}
-$$
+$$  
 
 或者写成完整形式：  
 $$
