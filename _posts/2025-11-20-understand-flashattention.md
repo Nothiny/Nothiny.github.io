@@ -114,14 +114,12 @@ $$
 $$
 m^{(1)} = \text{rowmax}(\mathbf{S}^{(1)}) \in \mathbb{R}^{B_r}
 $$  
-**步骤 3**：计算归一化因子（基于 $m^{(1)}$ ）   
-
+**步骤 3**：计算归一化因子（基于 $m^{(1)}$ ）  
 
 $$
 \ell^{(1)} = \text{rowsum}(e^{\mathbf{S}^{(1)}-m^{(1)}}) \in \mathbb{R}^{B_r}
 $$  
 **步骤 4**：计算部分输出（未归一化）  
-
 
 $$
 \tilde{\mathbf{O}}^{(1)} = e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} \in \mathbb{R}^{B_r \times d}
@@ -132,7 +130,6 @@ $$
 
 **步骤 5**：更新全局最大值  
 
-
 $$
 m^{(2)} = \max(m^{(1)}, \text{rowmax}(\mathbf{S}^{(2)})) = m
 $$  
@@ -141,7 +138,6 @@ $$
 **步骤 6**：更新归一化因子  
 
 由于最大值从 $m^{(1)}$  变为 $m^{(2)}$ ，需要重新缩放之前的归一化因子：  
-
 
 $$
 \begin{align} \ell^{(2)} &= e^{m^{(1)}-m^{(2)}} \ell^{(1)} + \text{rowsum}(e^{\mathbf{S}^{(2)}-m^{(2)}}) \\ &= \text{rowsum}(e^{\mathbf{S}^{(1)}-m}) + \text{rowsum}(e^{\mathbf{S}^{(2)}-m}) \\ &= \ell \end{align}
@@ -154,7 +150,6 @@ $$
 **步骤 7**：更新输出（未归一化）  
 
 同样需要重新缩放 $\tilde{\mathbf{O}}^{(1)}$ ：  
-
 
 $$
 \begin{align} \tilde{\mathbf{O}}^{(2)} &= \text{diag}(e^{m^{(1)}-m^{(2)}})\tilde{\mathbf{O}}^{(1)} + e^{\mathbf{S}^{(2)}-m^{(2)}}\mathbf{V}^{(2)} \\ &= e^{\mathbf{S}^{(1)}-m}\mathbf{V}^{(1)} + e^{\mathbf{S}^{(2)}-m}\mathbf{V}^{(2)} \end{align}
@@ -170,7 +165,6 @@ $$
   $e^{\mathbf{S}^{(1)}-m^{(2)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} \tilde{\mathbf{O}}^{(1)} $
 
 **步骤 8**：最终归一化  
-
 
 $$
 \mathbf{O}^{(2)} = \text{diag}(\ell^{(2)})^{-1}\tilde{\mathbf{O}}^{(2)} = \mathbf{O}
@@ -245,7 +239,6 @@ $$
 $$
 \frac{\partial L}{\partial \mathbf{S}} = \mathbf{P} \odot \left(\frac{\partial L}{\partial \mathbf{P}} - \text{diag}\left(\frac{\partial L}{\partial \mathbf{P}} \mathbf{P}^T\right)\right)
 $$  
-
 
 但 FlashAttention **不保存 $\mathbf{P}$** （太大了），所以需要在反向传播时**重新计算** $\mathbf{P}$ 。
 
