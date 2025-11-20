@@ -106,7 +106,7 @@ $$
 
 ### 第一个块的处理
 
-**步骤 1**：计算注意力分数
+**步骤 1**：计算注意力分数  
 $$
 \mathbf{S}^{(1)} = \mathbf{Q}(\mathbf{K}^{(1)})^T \in \mathbb{R}^{B_r \times B_c}
 $$
@@ -114,11 +114,15 @@ $$
 $$
 m^{(1)} = \text{rowmax}(\mathbf{S}^{(1)}) \in \mathbb{R}^{B_r}
 $$
-**步骤 3**：计算归一化因子（基于 $m^{(1)} $）
+**步骤 3**：计算归一化因子（基于 $m^{(1)} $） 
+
+
 $$
 \ell^{(1)} = \text{rowsum}(e^{\mathbf{S}^{(1)}-m^{(1)}}) \in \mathbb{R}^{B_r}
 $$
 **步骤 4**：计算部分输出（未归一化）
+
+
 $$
 \tilde{\mathbf{O}}^{(1)} = e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} \in \mathbb{R}^{B_r \times d}
 $$
@@ -127,6 +131,8 @@ $$
 ### 第二个块的处理
 
 **步骤 5**：更新全局最大值
+
+
 $$
 m^{(2)} = \max(m^{(1)}, \text{rowmax}(\mathbf{S}^{(2)})) = m
 $$
@@ -135,6 +141,8 @@ $$
 **步骤 6**：更新归一化因子
 
 由于最大值从 $m^{(1)} $ 变为 $m^{(2)} $，需要重新缩放之前的归一化因子：
+
+
 $$
 \begin{align} \ell^{(2)} &= e^{m^{(1)}-m^{(2)}} \ell^{(1)} + \text{rowsum}(e^{\mathbf{S}^{(2)}-m^{(2)}}) \\ &= \text{rowsum}(e^{\mathbf{S}^{(1)}-m}) + \text{rowsum}(e^{\mathbf{S}^{(2)}-m}) \\ &= \ell \end{align}
 $$
@@ -145,7 +153,9 @@ $$
 
 **步骤 7**：更新输出（未归一化）
 
-同样需要重新缩放 $\tilde{\mathbf{O}}^{(1)} $：
+同样需要重新缩放 $\tilde{\mathbf{O}}^{(1)} $：  
+
+
 $$
 \begin{align} \tilde{\mathbf{O}}^{(2)} &= \text{diag}(e^{m^{(1)}-m^{(2)}})\tilde{\mathbf{O}}^{(1)} + e^{\mathbf{S}^{(2)}-m^{(2)}}\mathbf{V}^{(2)} \\ &= e^{\mathbf{S}^{(1)}-m}\mathbf{V}^{(1)} + e^{\mathbf{S}^{(2)}-m}\mathbf{V}^{(2)} \end{align}
 $$
@@ -154,9 +164,14 @@ $$
 **推导说明**：
 
 - $\tilde{\mathbf{O}}^{(1)} = e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} $
-- 基于新的最大值应该是：$e^{\mathbf{S}^{(1)}-m^{(2)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} \tilde{\mathbf{O}}^{(1)} $
+
+- 基于新的最大值应该是：
+
+  $e^{\mathbf{S}^{(1)}-m^{(2)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} \tilde{\mathbf{O}}^{(1)} $
 
 **步骤 8**：最终归一化
+
+
 $$
 \mathbf{O}^{(2)} = \text{diag}(\ell^{(2)})^{-1}\tilde{\mathbf{O}}^{(2)} = \mathbf{O}
 $$
@@ -196,11 +211,11 @@ $$
 
 ##### 计算过程
 
-**1. 对 V 的梯度：**
+**1. 对 V 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{V}} = \mathbf{P}^T \frac{\partial L}{\partial \mathbf{O}} \in \mathbb{R}^{N \times d}
 $$
-**2. 对 P 的梯度：**
+**2. 对 P 的梯度： ** 
 $$
 \frac{\partial L}{\partial \mathbf{P}} = \frac{\partial L}{\partial \mathbf{O}} \mathbf{V}^T \in \mathbb{R}^{N \times N}
 $$
