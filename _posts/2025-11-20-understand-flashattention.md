@@ -87,7 +87,7 @@ Online softmax 允许我们在看到数据流的过程中**增量式地**计算 
 
 ### 数值稳定的 Softmax
 
-为了数值稳定，softmax 通常这样计算：
+为了数值稳定，softmax 通常这样计算：  
 $$
 \text{softmax}(\mathbf{x})_i = \frac{e^{x_i - m}}{\sum_j e^{x_j - m}}
 $$
@@ -110,17 +110,17 @@ $$
 $$
 \mathbf{S}^{(1)} = \mathbf{Q}(\mathbf{K}^{(1)})^T \in \mathbb{R}^{B_r \times B_c}
 $$
-**步骤 2**：计算行最大值
+**步骤 2**：计算行最大值  
 $$
 m^{(1)} = \text{rowmax}(\mathbf{S}^{(1)}) \in \mathbb{R}^{B_r}
 $$
-**步骤 3**：计算归一化因子（基于 $m^{(1)} $） 
+**步骤 3**：计算归一化因子（基于 $m^{(1)}$ ）   
 
 
 $$
 \ell^{(1)} = \text{rowsum}(e^{\mathbf{S}^{(1)}-m^{(1)}}) \in \mathbb{R}^{B_r}
 $$
-**步骤 4**：计算部分输出（未归一化）
+**步骤 4**：计算部分输出（未归一化）  
 
 
 $$
@@ -130,7 +130,7 @@ $$
 
 ### 第二个块的处理
 
-**步骤 5**：更新全局最大值
+**步骤 5**：更新全局最大值  
 
 
 $$
@@ -138,9 +138,9 @@ m^{(2)} = \max(m^{(1)}, \text{rowmax}(\mathbf{S}^{(2)})) = m
 $$
 这是真实的全局最大值。
 
-**步骤 6**：更新归一化因子
+**步骤 6**：更新归一化因子  
 
-由于最大值从 $m^{(1)} $ 变为 $m^{(2)} $，需要重新缩放之前的归一化因子：
+由于最大值从 $m^{(1)}$  变为 $m^{(2)}$ ，需要重新缩放之前的归一化因子：  
 
 
 $$
@@ -151,9 +151,9 @@ $$
 - $\ell^{(1)} = \sum_j e^{S^{(1)}_{ij} - m^{(1)}} $
 - 基于新的最大值应该是：$\sum_j e^{S^{(1)}_{ij} - m^{(2)}} = e^{m^{(1)}-m^{(2)}} \sum_j e^{S^{(1)}_{ij} - m^{(1)}} = e^{m^{(1)}-m^{(2)}} \ell^{(1)} $
 
-**步骤 7**：更新输出（未归一化）
+**步骤 7**：更新输出（未归一化）  
 
-同样需要重新缩放 $\tilde{\mathbf{O}}^{(1)} $：  
+同样需要重新缩放 $\tilde{\mathbf{O}}^{(1)}$ ：  
 
 
 $$
@@ -169,7 +169,7 @@ $$
 
   $e^{\mathbf{S}^{(1)}-m^{(2)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} e^{\mathbf{S}^{(1)}-m^{(1)}}\mathbf{V}^{(1)} = e^{m^{(1)}-m^{(2)}} \tilde{\mathbf{O}}^{(1)} $
 
-**步骤 8**：最终归一化
+**步骤 8**：最终归一化  
 
 
 $$
@@ -215,62 +215,64 @@ $$
 $$
 \frac{\partial L}{\partial \mathbf{V}} = \mathbf{P}^T \frac{\partial L}{\partial \mathbf{O}} \in \mathbb{R}^{N \times d}
 $$
-**2. 对 P 的梯度： ** 
+**2. 对 P 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{P}} = \frac{\partial L}{\partial \mathbf{O}} \mathbf{V}^T \in \mathbb{R}^{N \times N}
 $$
-**3. 对 S 的梯度（softmax 反向传播）：**
+**3. 对 S 的梯度（softmax 反向传播）：**  
 $$
 \frac{\partial L}{\partial \mathbf{S}} = \mathbf{P} \odot \left(\frac{\partial L}{\partial \mathbf{P}} - \text{diag}\left(\frac{\partial L}{\partial \mathbf{P}} \mathbf{P}^T\right)\right) \in \mathbb{R}^{N \times N}
 $$
-或者简化为：
+
+或者简化为：  
 $$
 \frac{\partial L}{\partial S_{ij}} = P_{ij}\left(\frac{\partial L}{\partial P_{ij}} - \sum_k \frac{\partial L}{\partial P_{ik}} P_{ik}\right)
 $$
-**4. 对 Q 的梯度：**
+**4. 对 Q 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{Q}} = \frac{\partial L}{\partial \mathbf{S}} \mathbf{K} \in \mathbb{R}^{N \times d}
 $$
-**5. 对 K 的梯度：**
+**5. 对 K 的梯度：**  
 $$
 \frac{\partial L}{\partial \mathbf{K}} = \left(\frac{\partial L}{\partial \mathbf{S}}\right)^T \mathbf{Q} \in \mathbb{R}^{N \times d}
 $$
+
 反向传播由于不保存P，所以需要重新计算：
 
 
 
-在标准 attention 中，反向传播需要用到注意力权重 $\mathbf{P} $：
+在标准 attention 中，反向传播需要用到注意力权重 $\mathbf{P}$ ：  
 $$
 \frac{\partial L}{\partial \mathbf{S}} = \mathbf{P} \odot \left(\frac{\partial L}{\partial \mathbf{P}} - \text{diag}\left(\frac{\partial L}{\partial \mathbf{P}} \mathbf{P}^T\right)\right)
 $$
 
 
-但 FlashAttention **不保存 $\mathbf{P} $**（太大了），所以需要在反向传播时**重新计算** $\mathbf{P} $。
+但 FlashAttention **不保存 $\mathbf{P}$** （太大了），所以需要在反向传播时**重新计算** $\mathbf{P}$ 。
 
 **重新计算 P 需要 logsumexp**
 
-要重新计算 $\mathbf{P} $，需要：
+要重新计算 $\mathbf{P}$ ，需要：  
 $$
 \mathbf{P} = \text{softmax}(\mathbf{S}) = \frac{e^{\mathbf{S} - m}}{\ell}
 $$
 其中：
 
-- $m = \text{rowmax}(\mathbf{S}) $：可以重新计算
-- $\ell = \sum_j e^{S_{ij} - m} $：这就是归一化因子
+- $m = \text{rowmax}(\mathbf{S})$ ：可以重新计算
+- $\ell = \sum_j e^{S_{ij} - m}$ ：这就是归一化因子
 
-**为什么保存 logsumexp 而不是 $\ell $？**
+**为什么保存 logsumexp 而不是 $\ell$ ？**
 
-**数值稳定性**！保存 $L = m + \log(\ell) = m + \log\left(\sum_j e^{S_{ij} - m}\right) $
+**数值稳定性**！保存 $L = m + \log(\ell) = m + \log\left(\sum_j e^{S_{ij} - m}\right)$
 
-这样在反向传播时：
+这样在反向传播时：  
 $$
 \mathbf{P}_{ij} = \frac{e^{S_{ij} - m}}{\ell} = \frac{e^{S_{ij} - m}}{e^{L - m}} = e^{S_{ij} - L}
 $$
 **优势**：
 
 - 避免指数运算的数值溢出
-- $L $ 是对数空间的值，数值范围更稳定
-- 可以直接用 $e^{S_{ij} - L} $ 计算 $P_{ij} $
+- $L$  是对数空间的值，数值范围更稳定
+- 可以直接用 $e^{S_{ij} - L}$  计算 $P_{ij}$
 
 
 
@@ -319,47 +321,47 @@ $B_r = \min\left(\left\lceil \frac{M}{4d} \right\rceil, d\right)$
 
 ## 附：数值稳定的logsumexp(L)推导
 
-**步骤 1**：原始的 logsumexp 定义
+**步骤 1**：原始的 logsumexp 定义  
 $$
 L_i = \log\left(\sum_j e^{S_{ij}}\right)
 $$
-**步骤 2**：定义行最大值
+**步骤 2**：定义行最大值  
 $$
 m_i = \max_j S_{ij}
 $$
-**步骤 3**：在求和中巧妙地乘以和除以 $e^{m_i} $
+**步骤 3**：在求和中巧妙地乘以和除以 $e^{m_i}$  
 $$
 L_i = \log\left(\sum_j e^{S_{ij}} \cdot \frac{e^{m_i}}{e^{m_i}}\right)
 $$
-**步骤 4**：提取 $e^{m_i} $ 到求和外面
+**步骤 4**：提取 $e^{m_i}$  到求和外面  
 $$
 L_i = \log\left(e^{m_i} \cdot \sum_j \frac{e^{S_{ij}}}{e^{m_i}}\right)
 $$
-**步骤 5**：使用对数的乘法法则 $\log(ab) = \log(a) + \log(b) $
+**步骤 5**：使用对数的乘法法则 $\log(ab) = \log(a) + \log(b)$  
 $$
 L_i = \log(e^{m_i}) + \log\left(\sum_j \frac{e^{S_{ij}}}{e^{m_i}}\right)
 $$
-**步骤 6**：简化 $\log(e^{m_i}) = m_i $
+**步骤 6**：简化 $\log(e^{m_i}) = m_i$  
 $$
 L_i = m_i + \log\left(\sum_j \frac{e^{S_{ij}}}{e^{m_i}}\right)
 $$
-**步骤 7**：使用指数的除法法则 $\frac{e^a}{e^b} = e^{a-b} $
+**步骤 7**：使用指数的除法法则 $\frac{e^a}{e^b} = e^{a-b}$  
 $$
 L_i = m_i + \log\left(\sum_j e^{S_{ij} - m_i}\right)
 $$
-**步骤 8**：定义 $\ell_i = \sum_j e^{S_{ij} - m_i} $（归一化因子）
+**步骤 8**：定义 $\ell_i = \sum_j e^{S_{ij} - m_i}$ （归一化因子）
 
-最终得到：
+最终得到：  
 $$
 \boxed{L_i = m_i + \log(\ell_i) = m_i + \log\left(\sum_j e^{S_{ij} - m_i}\right)}
 $$
-**关系总结**
+**关系总结**  
 
 $$
 \begin{align} m_i &= \max_j S_{ij} \\ \ell_i &= \sum_j e^{S_{ij} - m_i} \\ L_i &= m_i + \log(\ell_i) \end{align}
 $$
 
-或者写成完整形式：
+或者写成完整形式：  
 $$
 L_i = \log\left(\sum_j e^{S_{ij}}\right) = m_i + \log\left(\sum_j e^{S_{ij} - m_i}\right)
 $$
