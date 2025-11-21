@@ -15,7 +15,7 @@ future: true
 RSS: false
 weibo_username: 
 zhihu_username: eliauk-31-59-68
-github_username: Nothiny
+github_username: nothiny
 twitter_username: yzid1107
 #facebook_username:  huxpro
 #linkedin_username:  firstname-lastname-idxxxx
@@ -110,7 +110,7 @@ friends:
 # Giscus settings
 giscus:
   enable: true
-  repo: Nothiny/Nothiny.github.io
+  repo: nothiny/nothiny.github.io
   repo_id: "R_kgDOPknUAQ"
   category: Announcements
   category_id: "DIC_kwDOPknUAc4CxoKn"
