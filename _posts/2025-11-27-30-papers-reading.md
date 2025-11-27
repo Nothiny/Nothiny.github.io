@@ -1,10 +1,10 @@
 ---
-title:      "启动一个读30篇论文的挑战"
+title:      "记录最近阅读的30篇论文"
 date:       2025-11-27 12:00:00
-header-img: /img/paper-read/back.jpg
+header-img: /img/back.jpg
 tags:
     - paper-reading
 ---
 
-# 启动一个读30篇论文的挑战
+# 记录最近阅读的30篇论文
 
