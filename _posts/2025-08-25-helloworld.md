@@ -13,3 +13,15 @@ tags:
 ## first blog
 
 模板来自https://huangxuan.me/
+
+模板复制
+```
+---
+title:      "Hello blog"
+date:       2025-08-25 12:00:00
+header-img: img/bg-little-universe.jpg
+tags:
+    - hello world
+---
+
+```
