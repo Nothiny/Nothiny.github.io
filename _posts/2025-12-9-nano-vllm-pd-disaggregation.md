@@ -1,9 +1,10 @@
 ---
 title:      "深入理解 LLM 推理中的 Prefill-Decode 分离调度"
-date:       2025-02-09 12:00:00
+date:       2025-12-09 12:00:00
 header-img: img/bg-little-universe.jpg
 tags:
-    - hello world
+    - llm 推理
+    - vllm
 ---
 
 > 本文基于 [nano-vllm](https://github.com/GeeeekExplorer/nano-vllm) 项目的实现，深入剖析 PD（Prefill-Decode）分离调度的设计思想与实现细节。代码位于https://github.com/nothiny/nano-vllm
