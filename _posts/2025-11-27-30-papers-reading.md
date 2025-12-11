@@ -196,7 +196,7 @@ InfiniGen 这篇论文的核心定位可以看作是 H2O 的无损进阶版。�
 
 ## MLIR: Scaling Compiler Infrastructure for Domain  Specific Computation
 
-![](/img/im-posts/mlir.png)
+![](/img/in-posts/mlir.png)
 
 MLIR 的设计目标是建立一个能够处理各种领域特定抽象、同时又能有效进行代码生成的编译器基础设施。其核心设计原则主要有以下四个方面：
 
